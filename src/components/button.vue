@@ -11,7 +11,7 @@ const { className, ...rest } = props;
   <button
     :class="
       cn(
-        'bg-orange flex h-12 w-fit items-center justify-center gap-2 rounded-full px-6 leading-0 text-white',
+        'bg-orange text-very-dark-blue flex h-14 items-center justify-center gap-2 rounded-xl px-6 leading-0 font-bold',
         className,
       )
     "
