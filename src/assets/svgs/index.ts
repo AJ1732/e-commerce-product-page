@@ -1,0 +1,9 @@
+export { default as IconCart } from "./icon-cart.vue";
+export { default as IconClose } from "./icon-close.vue";
+export { default as IconDelete } from "./icon-delete.vue";
+export { default as IconMenu } from "./icon-menu.vue";
+export { default as IconMinus } from "./icon-minus.vue";
+export { default as IconNext } from "./icon-Next.vue";
+export { default as IconPlus } from "./icon-plus.vue";
+export { default as IconPrevious } from "./icon-previous.vue";
+export { default as Logo } from "./logo.vue";

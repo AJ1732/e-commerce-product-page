@@ -1,0 +1,23 @@
+<script setup lang="ts">
+import type { SVGIconProps } from "@/types/svgs";
+const props = defineProps<SVGIconProps>();
+</script>
+
+<template>
+  <svg
+    v-bind="props"
+    :width="props.width || 12"
+    :height="props.height || 4"
+    viewBox="0 0 12 4"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+  >
+    <defs>
+      <path
+        d="M11.357 3.332A.641.641 0 0 0 12 2.69V.643A.641.641 0 0 0 11.357 0H.643A.641.641 0 0 0 0 .643v2.046c0 .357.287.643.643.643h10.714Z"
+        id="a"
+      />
+    </defs>
+    <use fill="currentColor" fill-rule="nonzero" xlink:href="#a" />
+  </svg>
+</template>

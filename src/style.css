@@ -84,7 +84,7 @@
   }
 
   button {
-    @apply cursor-pointer active:scale-[0.98] transition-transform duration-150 ease-in-out;
+    @apply cursor-pointer transition-[transform,colors] duration-300 ease-in-out active:scale-[0.98];
   }
 
   .no-scrollbar::-webkit-scrollbar {

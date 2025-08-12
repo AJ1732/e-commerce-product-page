@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { IconCart, IconPlus, IconMinus } from "@/assets/svgs";
 import { Button } from "@/components";
 import { cn } from "@/lib/utils";
 </script>
@@ -44,16 +45,22 @@ import { cn } from "@/lib/utils";
           :class="
             cn(
               'bg-light-grayish-blue flex h-14 items-center gap-4 rounded-xl px-2 font-bold lg:gap-8',
-              '[&>button]:text-orange [&>button]:-mt-1.5 [&>button]:grid [&>button]:size-8 [&>button]:place-content-center [&>button]:text-2xl [&>button]:leading-none',
+              '[&>button]:text-orange [&>button]:grid [&>button]:size-8 [&>button]:place-content-center [&>button]:text-2xl [&>button]:leading-none',
             )
           "
         >
-          <button>-</button> <span>0</span> <button>+</button>
+          <button>
+            <IconMinus />
+          </button>
+          <span>0</span>
+          <button>
+            <IconPlus />
+          </button>
         </div>
-        <Button>
-          <figure class="bg-very-dark-blue size-5 rounded-full"></figure>
-          Add to cart</Button
-        >
+        <Button class="text-very-dark-blue">
+          <IconCart class="size-[1.125rem]" />
+          Add to cart
+        </Button>
       </div>
     </article>
   </section>
