@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 const imageRef = ref<HTMLElement | null>(null);
 const selectedImage = ref<SneakerImage>(sneakerImages[0]);
 const currentIndex = ref(0);
-const autoPlayInterval = ref<NodeJS.Timeout | null>(null);
+const autoPlayInterval = ref<ReturnType<typeof setInterval> | null>(null);
 const isAnimating = ref(false);
 
 // Auto-play configuration
@@ -69,15 +69,15 @@ const goToNext = async () => {
   await animateImageTransition("next");
 };
 
-const goToPrev = async () => {
-  const prevIndex =
-    currentIndex.value === 0
-      ? sneakerImages.length - 1
-      : currentIndex.value - 1;
-  currentIndex.value = prevIndex;
-  selectedImage.value = sneakerImages[prevIndex];
-  await animateImageTransition("prev");
-};
+// const goToPrev = async () => {
+//   const prevIndex =
+//     currentIndex.value === 0
+//       ? sneakerImages.length - 1
+//       : currentIndex.value - 1;
+//   currentIndex.value = prevIndex;
+//   selectedImage.value = sneakerImages[prevIndex];
+//   await animateImageTransition("prev");
+// };
 
 const startAutoPlay = () => {
   if (autoPlayInterval.value) clearInterval(autoPlayInterval.value);
