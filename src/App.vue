@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { Navbar } from "@/components/elements";
 import {
-  Navbar,
   ProductDisplaySection,
   ProductInfoSection,
-} from "@/components";
+} from "@/components/sections";
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { IconCart, IconPlus, IconMinus } from "@/assets/svgs";
-import { Button } from "@/components";
 import { cn } from "@/lib/utils";
+import { Button } from "../elements";
 </script>
 
 <template>

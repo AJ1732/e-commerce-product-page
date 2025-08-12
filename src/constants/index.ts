@@ -22,3 +22,7 @@ export const sneakerImages: SneakerImage[] = [
     src: assets["image-product-4"],
   },
 ];
+
+export const sneakerImagesMap = new Map<number, SneakerImage>(
+  sneakerImages.map((img) => [img.id, img]),
+);
