@@ -36,7 +36,7 @@ const goPrevious = () => {
     <DialogTrigger asChild>
       <slot />
     </DialogTrigger>
-    <DialogContent class="p-0">
+    <DialogContent class="p-0 max-md:hidden">
       <DialogHeader class="sr-only">
         <DialogTitle>Image</DialogTitle>
       </DialogHeader>
