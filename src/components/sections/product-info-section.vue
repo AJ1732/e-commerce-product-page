@@ -6,7 +6,7 @@ import { Button } from "../elements";
 
 <template>
   <section
-    class="content-grid mx-auto w-full max-w-lg space-y-6 md:space-y-8 lg:space-y-10"
+    class="content-grid mx-auto w-full max-w-[calc(32rem+2rem)] space-y-6 md:space-y-8 lg:space-y-10"
   >
     <div>
       <p
