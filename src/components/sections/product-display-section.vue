@@ -132,11 +132,11 @@ onUnmounted(() => {
   <section
     @mouseenter="stopAutoPlay"
     @mouseleave="startAutoPlay"
-    class="max-md:full-width mx-auto w-full max-w-lg space-y-4 md:space-y-6 lg:space-y-8"
+    class="md:content-grid mx-auto w-full max-w-[calc(32rem+2rem)] space-y-4 md:space-y-6 lg:space-y-8"
   >
     <ProductImageCarousel>
       <figure
-        class="bg-orange relative grid aspect-square cursor-pointer place-content-center overflow-hidden md:rounded-2xl"
+        class="bg-orange relative grid aspect-square cursor-pointer place-content-center overflow-hidden sm:rounded-2xl"
       >
         <img
           ref="imageRef"
@@ -147,7 +147,7 @@ onUnmounted(() => {
       </figure>
     </ProductImageCarousel>
 
-    <ul class="grid w-full grid-cols-4 gap-4 max-md:hidden md:gap-6 lg:gap-8">
+    <ul class="grid w-full grid-cols-4 gap-4 max-sm:hidden md:gap-6 lg:gap-8">
       <li
         v-for="image in sneakerImages"
         :key="image.id"

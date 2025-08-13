@@ -1,7 +1,37 @@
 <script setup lang="ts">
+import gsap from "gsap";
+import { ref } from "vue";
 import { IconCart, IconPlus, IconMinus } from "@/assets/svgs";
 import { cn } from "@/lib/utils";
+
 import { Button } from "../elements";
+
+const showBox = ref(true);
+
+const beforeEnter = (el: Element) => {
+  gsap.set(el as HTMLElement, {
+    opacity: 0,
+    x: -10,
+  });
+};
+const enter = (el: Element, done: () => void) => {
+  gsap.to(el as HTMLElement, {
+    opacity: 1,
+    x: 0,
+    duration: 0.4,
+    ease: "power2.out",
+    onComplete: done,
+  });
+};
+const leave = (el: Element, done: () => void) => {
+  gsap.to(el as HTMLElement, {
+    opacity: 0,
+    x: -10,
+    duration: 0.3,
+    ease: "power2.in",
+    onComplete: done,
+  });
+};
 </script>
 
 <template>
@@ -59,9 +89,24 @@ import { Button } from "../elements";
             <IconPlus />
           </button>
         </div>
-        <Button class="text-very-dark-blue">
-          <IconCart class="size-[1.125rem]" />
-          Add to cart
+        <Button @click="showBox = !showBox" class="text-very-dark-blue">
+          <transition
+            mode="out-in"
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @leave="leave"
+          >
+            <span
+              :key="showBox ? 'add' : 'added'"
+              class="flex items-center gap-2"
+            >
+              <IconCart
+                class="size-[1.125rem] transition-all duration-300 ease-in-out"
+              />
+              {{ showBox ? "Add" : "Added" }} to cart
+            </span>
+          </transition>
+          <!-- <span class="-ml-1"></span> -->
         </Button>
       </div>
     </article>

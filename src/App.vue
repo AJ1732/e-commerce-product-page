@@ -10,7 +10,7 @@ import {
   <div class="font-kumbh-sans min-h-dvh grid grid-rows-[auto_1fr_auto]">
     <Navbar />
 
-    <main class="grid items-center max-w-[90rem] h-full mx-auto w-full pb-12 gap-2 md:gap-12 md:grid-cols-2 lg:gap-20 lg:py-10">
+    <main class="grid items-center max-w-[90rem] h-full mx-auto w-full pb-12 gap-2 md:grid-cols-2 lg:gap-16 lg:py-10">
       <ProductDisplaySection />
       <ProductInfoSection />
     </main>
