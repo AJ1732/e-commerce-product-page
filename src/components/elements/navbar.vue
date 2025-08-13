@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { IconCart, IconMenu, Logo } from "@/assets/svgs";
+import { IconMenu, Logo } from "@/assets/svgs";
 import { assets } from "@/assets/images";
 const NAVLINKS = [
   { label: "collections" },
@@ -8,6 +8,8 @@ const NAVLINKS = [
   { label: "about" },
   { label: "contact" },
 ];
+
+import CartPopover from "./cart-popover.vue";
 </script>
 
 <template>
@@ -31,11 +33,8 @@ const NAVLINKS = [
       </menu>
 
       <div class="ml-auto flex items-center gap-4 md:gap-6">
-        <button
-          class="hover:bg-orange/20 grid size-9 place-content-center rounded-md md:size-10"
-        >
-          <IconCart class="size-5" />
-        </button>
+       
+        <CartPopover />
         <button>
           <figure class="size-8 overflow-hidden rounded-full md:size-10">
             <img :src="assets['image-avatar']" class="size-full object-cover" />

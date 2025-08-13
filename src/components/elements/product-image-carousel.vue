@@ -5,8 +5,6 @@ import { IconPrevious, IconNext } from "@/assets/svgs";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
