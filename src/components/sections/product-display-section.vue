@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { IconPrevious, IconNext } from "@/assets/svgs";
 import { ProductImageCarousel } from "@/components/elements";
 import { products } from "@/constants";
+import { useIsDesktop } from "@/hooks/use-isdesktop";
 import type { SneakerImage } from "@/types/shared";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +14,9 @@ const selectedImage = ref<SneakerImage>(products[0].images[0]);
 const currentIndex = ref(0);
 const autoPlayInterval = ref<ReturnType<typeof setInterval> | null>(null);
 const isAnimating = ref(false);
+const isCarouselOpen = ref(false);
+const selectedIndex = ref(0);
+const isDesktop = useIsDesktop(640);
 
 // Auto-play configuration
 const AUTOPLAY_DURATION = 4000; // 4 seconds between slides
@@ -26,6 +30,11 @@ const handleSelect = (image: SneakerImage) => {
     selectedImage.value = image;
     resetAutoPlay(); // Reset the timer when user manually selects
   }
+};
+
+const openCarouselAt = (index: number) => {
+  selectedIndex.value = index;
+  isCarouselOpen.value = true;
 };
 
 const animateImageTransition = async (direction: "next" | "prev" = "next") => {
@@ -139,31 +148,35 @@ onUnmounted(() => {
     @mouseleave="startAutoPlay"
     class="md:content-grid mx-auto w-full max-w-[calc(32rem+2.5rem)] space-y-4 md:space-y-6 lg:space-y-8"
   >
-    <ProductImageCarousel>
-      <figure
-        :class="
-          cn(
-            'bg-orange relative grid aspect-square cursor-pointer place-content-center overflow-hidden sm:rounded-2xl',
-            '[&>button]:hover:text-orange [&>button]:absolute [&>button]:top-1/2 [&>button]:z-10 [&>button]:grid [&>button]:size-9 [&>button]:-translate-y-1/2 [&>button]:place-content-center [&>button]:rounded-full [&>button]:bg-white [&>button]:sm:hidden [&>button>svg]:size-3',
-          )
-        "
-      >
-        <button @click="goToPrev" class="left-3">
-          <IconPrevious class="-ml-1" />
-        </button>
+    <figure
+      @click="openCarouselAt(selectedImage.id - 1)"
+      :class="
+        cn(
+          'bg-orange relative grid aspect-square cursor-pointer place-content-center overflow-hidden sm:rounded-2xl',
+          '[&>button]:hover:text-orange [&>button]:absolute [&>button]:top-1/2 [&>button]:z-10 [&>button]:grid [&>button]:size-9 [&>button]:-translate-y-1/2 [&>button]:place-content-center [&>button]:rounded-full [&>button]:bg-white [&>button]:sm:hidden [&>button>svg]:size-3',
+        )
+      "
+    >
+      <button @click="goToPrev" class="left-3">
+        <IconPrevious class="-ml-1" />
+      </button>
 
-        <img
-          ref="imageRef"
-          :src="selectedImage.src"
-          class="size-full object-cover"
-          style="perspective: 1000px"
-        />
+      <img
+        ref="imageRef"
+        :src="selectedImage.src"
+        class="size-full object-cover"
+        style="perspective: 1000px"
+      />
 
-        <button @click="goToNext" class="right-3">
-          <IconNext class="ml-1" />
-        </button>
-      </figure>
-    </ProductImageCarousel>
+      <button @click="goToNext" class="right-3">
+        <IconNext class="ml-1" />
+      </button>
+    </figure>
+    <ProductImageCarousel
+      v-if="isDesktop"
+      v-model:open="isCarouselOpen"
+      v-model:selectedIndex="selectedIndex"
+    />
 
     <ul class="grid w-full grid-cols-4 gap-4 max-sm:hidden md:gap-6 lg:gap-8">
       <li

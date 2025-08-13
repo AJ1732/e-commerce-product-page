@@ -12,7 +12,6 @@ import {
 import { cn } from "@/lib/utils";
 import { IconClose } from "@/assets/svgs";
 import DialogOverlay from "./DialogOverlay.vue";
-import { useIsDesktop } from "@/hooks/use-isdesktop";
 
 const props = defineProps<
   DialogContentProps & { class?: HTMLAttributes["class"] }
@@ -22,13 +21,11 @@ const emits = defineEmits<DialogContentEmits>();
 const delegatedProps = reactiveOmit(props, "class");
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits);
-
-const isDesktop = useIsDesktop(640);
 </script>
 
 <template>
   <DialogPortal>
-    <DialogOverlay v-if="isDesktop" />
+    <DialogOverlay />
     <DialogContent
       data-slot="dialog-content"
       v-bind="forwarded"

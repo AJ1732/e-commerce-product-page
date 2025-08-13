@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 import { IconPrevious, IconNext } from "@/assets/svgs";
 import {
@@ -7,34 +7,45 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { products } from "@/constants";
 import { cn } from "@/lib/utils";
 import type { SneakerImage } from "@/types/shared";
 
-const selectedIndex = ref(0);
+const props = defineProps<{
+  open: boolean;
+  selectedIndex: number;
+}>();
 
-const selectedImage = computed(() => products[0].images[selectedIndex.value]);
-const handleSelect = (image: SneakerImage) =>
-  (selectedIndex.value = image.id - 1);
+const emit = defineEmits<{
+  (e: "update:open", value: boolean): void;
+  (e: "update:selectedIndex", value: number): void;
+}>();
+
+const selectedImage = computed(() => products[0].images[props.selectedIndex]);
+
+const handleSelect = (image: SneakerImage) => {
+  emit("update:selectedIndex", image.id - 1);
+};
 
 const goNext = () => {
-  selectedIndex.value = (selectedIndex.value + 1) % products[0].images.length;
+  emit(
+    "update:selectedIndex",
+    (props.selectedIndex + 1) % products[0].images.length,
+  );
 };
 
 const goPrevious = () => {
-  selectedIndex.value =
-    (selectedIndex.value - 1 + products[0].images.length) %
-    products[0].images.length;
+  emit(
+    "update:selectedIndex",
+    (props.selectedIndex - 1 + products[0].images.length) %
+      products[0].images.length,
+  );
 };
 </script>
 
 <template>
-  <Dialog>
-    <DialogTrigger asChild>
-      <slot />
-    </DialogTrigger>
+  <Dialog :open="props.open" @update:open="emit('update:open', $event)">
     <DialogContent class="p-0 max-sm:hidden">
       <DialogHeader class="sr-only">
         <DialogTitle>Product Image</DialogTitle>

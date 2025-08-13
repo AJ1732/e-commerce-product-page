@@ -38,7 +38,7 @@ const enter = (el: Element, done: () => void) => {
   gsap.to(el as HTMLElement, {
     opacity: 1,
     x: 0,
-    duration: 0.4,
+    duration: 0.3,
     ease: "power2.out",
     onComplete: done,
   });
@@ -47,7 +47,7 @@ const leave = (el: Element, done: () => void) => {
   gsap.to(el as HTMLElement, {
     opacity: 0,
     x: -10,
-    duration: 0.3,
+    duration: 0.2,
     ease: "power2.in",
     onComplete: done,
   });
@@ -56,7 +56,7 @@ const leave = (el: Element, done: () => void) => {
 
 <template>
   <section
-    class="content-grid mx-auto w-full max-w-[calc(32rem+5rem)] lg:max-w-[calc(32rem+2.5rem)] space-y-6 md:space-y-8 lg:space-y-10"
+    class="content-grid mx-auto w-full max-w-[calc(32rem+5rem)] space-y-6 md:space-y-8 lg:max-w-[calc(32rem+2.5rem)] lg:space-y-10"
   >
     <div>
       <p
