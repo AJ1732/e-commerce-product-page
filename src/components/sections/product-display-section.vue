@@ -161,12 +161,14 @@ onUnmounted(() => {
         <IconPrevious class="-ml-1" />
       </button>
 
-      <img
-        ref="imageRef"
-        :src="selectedImage.src"
-        class="size-full object-cover"
-        style="perspective: 1000px"
-      />
+      <transition mode="out-in">
+        <img
+          ref="imageRef"
+          :src="selectedImage.src"
+          class="size-full object-cover"
+          style="perspective: 1000px"
+        />
+      </transition>
 
       <button @click="goToNext" class="right-3">
         <IconNext class="ml-1" />
