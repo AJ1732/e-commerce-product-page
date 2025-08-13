@@ -87,32 +87,24 @@
 @layer utilities {
   ::selection {
     color: white;
-    background: #f97316;
+    background: hsl(26, 100%, 55%);
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
-  /* ::-webkit-scrollbar-track {
-    background: #0a0a0a;
-  } */
+  ::-webkit-scrollbar-track {
+    background-color: hsl(220, 13%, 13%);
+  }
   ::-webkit-scrollbar-thumb {
-    @apply rounded-[100vw] bg-[#71717bf2];
-
-    border: 2px #0a0a0a solid;
+    border-radius: 100vw;
+    background-color: hsl(219, 9%, 45%);
+    border: 2px hsl(220, 13%, 13%) solid;
     transition: all 200ms ease-in-out;
   }
   ::-webkit-scrollbar-thumb:hover {
     cursor: pointer;
-    background-color: #71717b;
-    border: none;
-  }
-  .scroll-transparent::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .scroll-transparent::-webkit-scrollbar-thumb {
-    border: 2px white solid;
   }
 
   html {

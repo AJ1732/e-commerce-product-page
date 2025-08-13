@@ -9,23 +9,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { sneakerImages } from "@/constants";
+import { products } from "@/constants";
 import { cn } from "@/lib/utils";
 import type { SneakerImage } from "@/types/shared";
 
 const selectedIndex = ref(0);
 
-const selectedImage = computed(() => sneakerImages[selectedIndex.value]);
+const selectedImage = computed(() => products[0].images[selectedIndex.value]);
 const handleSelect = (image: SneakerImage) =>
   (selectedIndex.value = image.id - 1);
 
 const goNext = () => {
-  selectedIndex.value = (selectedIndex.value + 1) % sneakerImages.length;
+  selectedIndex.value = (selectedIndex.value + 1) % products[0].images.length;
 };
 
 const goPrevious = () => {
   selectedIndex.value =
-    (selectedIndex.value - 1 + sneakerImages.length) % sneakerImages.length;
+    (selectedIndex.value - 1 + products[0].images.length) %
+    products[0].images.length;
 };
 </script>
 
@@ -34,9 +35,9 @@ const goPrevious = () => {
     <DialogTrigger asChild>
       <slot />
     </DialogTrigger>
-    <DialogContent class="p-0 max-md:hidden">
+    <DialogContent class="p-0 max-sm:hidden">
       <DialogHeader class="sr-only">
-        <DialogTitle>Image</DialogTitle>
+        <DialogTitle>Product Image</DialogTitle>
       </DialogHeader>
 
       <section
@@ -67,7 +68,7 @@ const goPrevious = () => {
 
         <ul class="grid w-full grid-cols-4 gap-4 px-10 md:gap-6 lg:gap-6">
           <li
-            v-for="image in sneakerImages"
+            v-for="image in products[0].images"
             :key="image.id"
             @click="handleSelect(image)"
             :class="
