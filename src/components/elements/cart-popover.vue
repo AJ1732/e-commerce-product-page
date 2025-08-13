@@ -36,7 +36,7 @@ const quantity = computed(() => items.value.length);
     </PopoverTrigger>
     <PopoverContent
       align="end"
-      :alignOffset="-52"
+      :alignOffset="-57"
       class="mt-4 w-[22rem] divide-y rounded-xl p-0"
     >
       <header class="text-very-dark-blue p-4 text-lg font-bold">Cart</header>
