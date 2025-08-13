@@ -57,7 +57,7 @@
 }
 
 @utility content-grid {
-  --padding-inline: 1rem;
+  --padding-inline: 1.25rem;
   --content-max-width: 90rem;
   --layout-max-width: 90rem;
 

@@ -56,7 +56,7 @@ const leave = (el: Element, done: () => void) => {
 
 <template>
   <section
-    class="content-grid mx-auto w-full max-w-[calc(32rem+2rem)] space-y-6 md:space-y-8 lg:space-y-10"
+    class="content-grid mx-auto w-full max-w-[calc(32rem+5rem)] lg:max-w-[calc(32rem+2.5rem)] space-y-6 md:space-y-8 lg:space-y-10"
   >
     <div>
       <p
