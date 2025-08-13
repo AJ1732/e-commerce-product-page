@@ -1,59 +1,3 @@
-<script setup lang="ts">
-import gsap from "gsap";
-import { computed } from "vue";
-import { storeToRefs } from "pinia";
-
-import { IconCart, IconPlus, IconMinus } from "@/assets/svgs";
-import { products } from "@/constants";
-import { useCartStore } from "@/store/cart";
-import { cn } from "@/lib/utils";
-
-import { Button } from "../elements";
-
-const cartStore = useCartStore();
-const { items } = storeToRefs(cartStore);
-const { addToCart, increment, decrement } = cartStore;
-
-const { id, title, description, price, discount } = products[0];
-const isAdded = computed(() => items.value.some((item) => item.id === id));
-const productInCart = computed(() =>
-  items.value.find((item) => item.id === id),
-);
-
-// watch(
-//   productInCart,
-//   (newVal) => {
-//     console.log("Cart updated:", newVal);
-//   },
-//   { deep: true },
-// );
-
-const beforeEnter = (el: Element) => {
-  gsap.set(el as HTMLElement, {
-    opacity: 0,
-    x: -10,
-  });
-};
-const enter = (el: Element, done: () => void) => {
-  gsap.to(el as HTMLElement, {
-    opacity: 1,
-    x: 0,
-    duration: 0.3,
-    ease: "power2.out",
-    onComplete: done,
-  });
-};
-const leave = (el: Element, done: () => void) => {
-  gsap.to(el as HTMLElement, {
-    opacity: 0,
-    x: -10,
-    duration: 0.2,
-    ease: "power2.in",
-    onComplete: done,
-  });
-};
-</script>
-
 <template>
   <section
     class="content-grid mx-auto w-full max-w-[calc(32rem+5rem)] space-y-6 md:space-y-8 lg:max-w-[calc(32rem+2.5rem)] lg:space-y-10"
@@ -101,11 +45,26 @@ const leave = (el: Element, done: () => void) => {
             )
           "
         >
-          <button @click="decrement(id)">
+          <button
+            @click="handleDecrement"
+            @mousedown="startDecrement"
+            @mouseup="stopContinuous"
+            @mouseleave="stopContinuous"
+            @touchstart="startDecrement"
+            @touchend="stopContinuous"
+          >
             <IconMinus />
           </button>
           <span>{{ productInCart?.quantity || 0 }}</span>
-          <button @click="increment(products[0])">
+          <button
+            @click="handleIncrement"
+            @mousedown="startIncrement"
+            @mouseup="stopContinuous"
+            @mouseleave="stopContinuous"
+            @touchstart="startIncrement"
+            @touchend="stopContinuous"
+            class="select-none"
+          >
             <IconPlus />
           </button>
         </div>
@@ -134,3 +93,117 @@ const leave = (el: Element, done: () => void) => {
     </article>
   </section>
 </template>
+
+<script setup lang="ts">
+import gsap from "gsap";
+import { computed, onUnmounted, ref } from "vue";
+import { storeToRefs } from "pinia";
+
+import { IconCart, IconPlus, IconMinus } from "@/assets/svgs";
+import { products } from "@/constants";
+import { useCartStore } from "@/store/cart";
+import { cn } from "@/lib/utils";
+
+import { Button } from "../elements";
+
+const cartStore = useCartStore();
+const { items } = storeToRefs(cartStore);
+const { addToCart, increment, decrement } = cartStore;
+
+const { id, title, description, price, discount } = products[0];
+const isAdded = computed(() => items.value.some((item) => item.id === id));
+const productInCart = computed(() =>
+  items.value.find((item) => item.id === id),
+);
+
+// Continuous action state
+const holdTimer = ref<number | null>(null);
+const isHolding = ref(false);
+
+// Handle single clicks
+const handleIncrement = () => {
+  if (!isHolding.value) increment(products[0]);
+};
+
+const handleDecrement = () => {
+  if (!isHolding.value) decrement(id);
+};
+
+// Start continuous increment
+const startIncrement = () => {
+  isHolding.value = false;
+
+  // Initial delay before starting continuous action
+  holdTimer.value = setTimeout(() => {
+    isHolding.value = true;
+
+    // Start continuous increment
+    const continuousTimer = setInterval(() => {
+      increment(products[0]);
+    }, 150); // Adjust speed of increments as needed
+
+    holdTimer.value = continuousTimer;
+  }, 500); // Wait 500ms before starting continuous action
+};
+
+// Start continuous decrement
+const startDecrement = () => {
+  isHolding.value = false;
+
+  // Initial delay before starting continuous action
+  holdTimer.value = setTimeout(() => {
+    isHolding.value = true;
+
+    // Start continuous decrement
+    const continuousTimer = setInterval(() => {
+      decrement(id);
+    }, 150); // Adjust speed of decrements as needed
+
+    holdTimer.value = continuousTimer;
+  }, 500); // Wait 500ms before starting continuous action
+};
+
+// Stop continuous action
+const stopContinuous = () => {
+  if (holdTimer.value) {
+    clearTimeout(holdTimer.value);
+    clearInterval(holdTimer.value);
+    holdTimer.value = null;
+  }
+
+  // Reset holding state after a brief delay to prevent single click from firing
+  setTimeout(() => {
+    isHolding.value = false;
+  }, 50);
+};
+
+onUnmounted(() => {
+  stopContinuous();
+});
+
+// Animation functions
+const beforeEnter = (el: Element) => {
+  gsap.set(el as HTMLElement, {
+    opacity: 0,
+    x: -10,
+  });
+};
+const enter = (el: Element, done: () => void) => {
+  gsap.to(el as HTMLElement, {
+    opacity: 1,
+    x: 0,
+    duration: 0.3,
+    ease: "power2.out",
+    onComplete: done,
+  });
+};
+const leave = (el: Element, done: () => void) => {
+  gsap.to(el as HTMLElement, {
+    opacity: 0,
+    x: -10,
+    duration: 0.2,
+    ease: "power2.in",
+    onComplete: done,
+  });
+};
+</script>
