@@ -1,12 +1,32 @@
 <script setup lang="ts">
 import gsap from "gsap";
-import { ref } from "vue";
+import { computed } from "vue";
+import { storeToRefs } from "pinia";
+
 import { IconCart, IconPlus, IconMinus } from "@/assets/svgs";
+import { products } from "@/constants";
+import { useCartStore } from "@/store/cart";
 import { cn } from "@/lib/utils";
 
 import { Button } from "../elements";
 
-const showBox = ref(true);
+const cartStore = useCartStore();
+const { items } = storeToRefs(cartStore);
+const { addToCart, increment, decrement } = cartStore;
+
+const { id, title, description, price, discount } = products[0];
+const isAdded = computed(() => items.value.some((item) => item.id === id));
+const productInCart = computed(() =>
+  items.value.find((item) => item.id === id),
+);
+
+// watch(
+//   productInCart,
+//   (newVal) => {
+//     console.log("Cart updated:", newVal);
+//   },
+//   { deep: true },
+// );
 
 const beforeEnter = (el: Element) => {
   gsap.set(el as HTMLElement, {
@@ -47,28 +67,28 @@ const leave = (el: Element, done: () => void) => {
       <h1
         class="text-very-dark-blue text-3xl font-bold md:text-4xl lg:text-5xl lg:leading-[110%]"
       >
-        Fall Limited Edition Sneakers
+        {{ title }}
       </h1>
     </div>
 
     <article class="space-y-6">
       <p class="text-dark-grayish-blue max-md:leading-[175%] lg:text-lg">
-        These low-profile sneakers are your perfect casual wear companion.
-        Featuring a durable runbber outer sole, they'll withstand everything the
-        weather can offer.
+        {{ description }}
       </p>
       <div
         class="flex grid-cols-[auto_1fr] items-center gap-x-4 gap-y-2 md:grid"
       >
-        <p class="text-2xl font-bold md:text-3xl lg:text-4xl">$125.00</p>
+        <p class="text-2xl font-bold md:text-3xl lg:text-4xl">
+          ${{ price - price * discount }}.00
+        </p>
         <span
           class="bg-very-dark-blue inline-block w-fit rounded-md px-2.5 py-1 text-xs font-bold tracking-wide text-white md:text-sm"
-          >50%</span
+          >{{ discount * 100 }}%</span
         >
         <p
           class="text-dark-grayish-blue font-bold line-through max-md:ml-auto max-md:text-xs lg:text-lg"
         >
-          $250.00
+          ${{ price }}.00
         </p>
       </div>
 
@@ -81,15 +101,18 @@ const leave = (el: Element, done: () => void) => {
             )
           "
         >
-          <button>
+          <button @click="decrement(id)">
             <IconMinus />
           </button>
-          <span>0</span>
-          <button>
+          <span>{{ productInCart?.quantity || 0 }}</span>
+          <button @click="increment(products[0])">
             <IconPlus />
           </button>
         </div>
-        <Button @click="showBox = !showBox" class="text-very-dark-blue">
+        <Button
+          @click="() => addToCart(products[0])"
+          class="text-very-dark-blue"
+        >
           <transition
             mode="out-in"
             @before-enter="beforeEnter"
@@ -97,16 +120,15 @@ const leave = (el: Element, done: () => void) => {
             @leave="leave"
           >
             <span
-              :key="showBox ? 'add' : 'added'"
+              :key="isAdded ? 'added' : 'add'"
               class="flex items-center gap-2"
             >
               <IconCart
                 class="size-[1.125rem] transition-all duration-300 ease-in-out"
               />
-              {{ showBox ? "Add" : "Added" }} to cart
+              {{ isAdded ? "Added" : "Add" }} to cart
             </span>
           </transition>
-          <!-- <span class="-ml-1"></span> -->
         </Button>
       </div>
     </article>

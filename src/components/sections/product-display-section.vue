@@ -2,13 +2,13 @@
 import { ref, watch, nextTick, onMounted, onUnmounted } from "vue";
 import { gsap } from "gsap";
 
-import { sneakerImages } from "@/constants";
+import { products } from "@/constants";
 import { ProductImageCarousel } from "@/components/elements";
 import type { SneakerImage } from "@/types/shared";
 import { cn } from "@/lib/utils";
 
 const imageRef = ref<HTMLElement | null>(null);
-const selectedImage = ref<SneakerImage>(sneakerImages[0]);
+const selectedImage = ref<SneakerImage>(products[0].images[0]);
 const currentIndex = ref(0);
 const autoPlayInterval = ref<ReturnType<typeof setInterval> | null>(null);
 const isAnimating = ref(false);
@@ -19,7 +19,7 @@ const ANIMATION_DURATION = 0.7; // Animation duration in seconds
 
 const handleSelect = (image: SneakerImage) => {
   if (isAnimating.value) return;
-  const newIndex = sneakerImages.findIndex((img) => img.id === image.id);
+  const newIndex = products[0].images.findIndex((img) => img.id === image.id);
   if (newIndex !== -1) {
     currentIndex.value = newIndex;
     selectedImage.value = image;
@@ -63,19 +63,19 @@ const animateImageTransition = async (direction: "next" | "prev" = "next") => {
 };
 
 const goToNext = async () => {
-  const nextIndex = (currentIndex.value + 1) % sneakerImages.length;
+  const nextIndex = (currentIndex.value + 1) % products[0].images.length;
   currentIndex.value = nextIndex;
-  selectedImage.value = sneakerImages[nextIndex];
+  selectedImage.value = products[0].images[nextIndex];
   await animateImageTransition("next");
 };
 
 // const goToPrev = async () => {
 //   const prevIndex =
 //     currentIndex.value === 0
-//       ? sneakerImages.length - 1
+//       ? products[0].images.length - 1
 //       : currentIndex.value - 1;
 //   currentIndex.value = prevIndex;
-//   selectedImage.value = sneakerImages[prevIndex];
+//   selectedImage.value = products[0].images[prevIndex];
 //   await animateImageTransition("prev");
 // };
 
@@ -107,8 +107,12 @@ watch(selectedImage, async (newVal, oldVal) => {
 
   // Only animate if this wasn't triggered by auto-play
   if (oldVal && newVal.id !== oldVal.id) {
-    const oldIndex = sneakerImages.findIndex((img) => img.id === oldVal.id);
-    const newIndex = sneakerImages.findIndex((img) => img.id === newVal.id);
+    const oldIndex = products[0].images.findIndex(
+      (img) => img.id === oldVal.id,
+    );
+    const newIndex = products[0].images.findIndex(
+      (img) => img.id === newVal.id,
+    );
 
     // Determine direction based on index change
     const direction = newIndex > oldIndex ? "next" : "prev";
@@ -149,7 +153,7 @@ onUnmounted(() => {
 
     <ul class="grid w-full grid-cols-4 gap-4 max-sm:hidden md:gap-6 lg:gap-8">
       <li
-        v-for="image in sneakerImages"
+        v-for="image in products[0].images"
         :key="image.id"
         @click="handleSelect(image)"
         :class="
